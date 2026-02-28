@@ -32,6 +32,28 @@ type RouteEntry = {
 };
 
 // ---------------------------------------------------------------------------
+// Base path — reads from Rsbuild's server.base via import.meta.env.BASE_URL
+// ---------------------------------------------------------------------------
+
+// BASE_URL includes trailing slash (e.g. "/frontend/"), strip it for prefix matching
+const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/+$/, "") || "";
+
+/** Strip the base prefix from a browser pathname to get the route path. */
+function stripBase(browserPath: string): string {
+  if (BASE && browserPath.startsWith(BASE)) {
+    const rest = browserPath.slice(BASE.length);
+    return rest.startsWith("/") ? rest : "/" + rest;
+  }
+  return browserPath;
+}
+
+/** Prepend the base prefix to a route path for use in the browser URL. */
+function withBase(routePath: string): string {
+  if (!BASE) return routePath;
+  return BASE + (routePath.startsWith("/") ? routePath : "/" + routePath);
+}
+
+// ---------------------------------------------------------------------------
 // Context
 // ---------------------------------------------------------------------------
 
@@ -74,8 +96,11 @@ export function Link({
     navigate(href);
   };
 
+  // href from user is a route path like "/about", add base for the actual <a>
+  const fullHref = withBase(href);
+
   return (
-    <a href={href} onClick={handleClick} {...props}>
+    <a href={fullHref} onClick={handleClick} {...props}>
       {children}
     </a>
   );
@@ -262,15 +287,18 @@ function NotFound() {
 }
 
 export function Router() {
-  const [pathname, setPathname] = useState(window.location.pathname);
+  const [pathname, setPathname] = useState(
+    () => stripBase(window.location.pathname)
+  );
 
   const navigate = useCallback((to: string) => {
-    window.history.pushState(null, "", to);
-    setPathname(new URL(to, window.location.origin).pathname);
+    // `to` is a route path like "/about", push the full browser URL with base
+    window.history.pushState(null, "", withBase(to));
+    setPathname(to.startsWith("/") ? to : "/" + to);
   }, []);
 
   useEffect(() => {
-    const onPop = () => setPathname(window.location.pathname);
+    const onPop = () => setPathname(stripBase(window.location.pathname));
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
