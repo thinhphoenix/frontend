@@ -17,6 +17,7 @@ export default defineConfig({
     template: "./index.html",
   },
   server: {
+    base: '/frontend',
     historyApiFallback: true,
   },
 });
