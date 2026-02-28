@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunkfrontend=self.rspackChunkfrontend||[]).push([["682"],{609(n,s,e){e.r(s),e.d(s,{default:()=>a});var r=e(848);function a(n){let{children:s}=n;return(0,r.jsx)("div",{className:"min-h-screen bg-zinc-50 font-sans dark:bg-black",children:s})}}}]);
