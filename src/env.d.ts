@@ -1,20 +1,10 @@
 /// <reference types="@rsbuild/core/types" />
 
-interface WebpackContextOptions {
-  recursive?: boolean;
-  regExp?: RegExp;
-  mode?: "sync" | "eager" | "weak" | "lazy" | "lazy-once";
-}
-
-interface WebpackContext {
-  keys(): string[];
-  (id: string): any;
-  resolve(id: string): string | number;
-}
-
-interface ImportMeta {
-  webpackContext(
-    directory: string,
-    options?: WebpackContextOptions
-  ): WebpackContext;
+declare module "virtual-fs-routes" {
+  export const routePrefix: string;
+  export const pages: Record<string, () => Promise<{ default: React.ComponentType<any> }>>;
+  export const layouts: Record<string, () => Promise<{ default: React.ComponentType<{ children: React.ReactNode }> }>>;
+  export const notFounds: Record<string, () => Promise<{ default: React.ComponentType<any> }>>;
+  export const loadings: Record<string, () => Promise<{ default: React.ComponentType<any> }>>;
+  export const errors: Record<string, () => Promise<{ default: React.ComponentType<{ error: Error; reset: () => void }> }>>;
 }

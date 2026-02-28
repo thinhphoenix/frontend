@@ -1,4 +1,4 @@
-import { Link } from "@/router";
+import { Link } from "fs-router/runtime";
 
 export default function Home() {
   return (

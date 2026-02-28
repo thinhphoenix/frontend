@@ -17,6 +17,7 @@
     "@rsbuild/core": "^2.0.0-beta.4",
     "@rsbuild/plugin-react": "^1.4.5",
     "@tailwindcss/postcss": "^4",
+    "@types/node": "^25.3.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",

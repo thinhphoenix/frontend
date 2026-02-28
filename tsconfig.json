@@ -14,9 +14,10 @@
     "jsx": "react-jsx",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "fs-router/runtime": ["./plugins/fs-router/runtime"]
     }
   },
-  "include": ["src", "app"],
+  "include": ["src", "plugins"],
   "exclude": ["node_modules", "dist"]
 }
